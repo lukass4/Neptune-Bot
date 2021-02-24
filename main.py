@@ -9,11 +9,17 @@ import discord
 import time
 import random
 
+#getting the prefix
+
+with open("prefix.txt", "r") as rf:
+
+  prefixfile = rf.read()
+
 #variables
 
 client = discord.Client()
 default_prefix = ("!!")
-prefix = (default_prefix)
+prefix = (prefixfile)
 server = client.get_guild(813415238493405246)
 
 #started up message
