@@ -161,12 +161,12 @@ async def on_message(message):
       await message.channel.purge(limit=1)
       await message.channel.send("1875 messages purged!")
       logs_channel = client.get_channel(813768338404278332)
-      await logs_channel.send(f"{message.channel} was purged by {message.author}. A maximum of 1875 messages were purged as the toolbox was enabled.")
+      await logs_channel.send(f"#{message.channel} was purged by {message.author}. A maximum of 1875 messages were purged as the toolbox was enabled.")
     if toolbox == False:
       await message.channel.purge(limit=51)
       await message.channel.send("50 messages purged!")
       logs_channel = client.get_channel(813768338404278332)
-      await logs_channel.send(f"{message.channel} was purged by {message.author}. A maximum of 50 messages were purged as the toolbox was disabled.")
+      await logs_channel.send(f"#{message.channel} was purged by {message.author}. A maximum of 50 messages were purged as the toolbox was disabled.")
 
 
 
