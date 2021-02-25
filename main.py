@@ -32,6 +32,11 @@ logs_channel = client.get_channel(813768338404278332)
 @client.event
 async def on_ready():
   print("Bot is online! {0.user}".format(client))
+  logs_channel = client.get_channel(813768338404278332)
+  await logs_channel.send("The bot is online!")
+  with open("online_offline_logs.txt", "a")as f:
+    f.write("The bot is now online!\n")
+
 
 
 #Message and member join log script
@@ -124,11 +129,11 @@ async def on_message(message):
   if message.content.startswith(prefix + "info"):
     await message.channel.send(f"""Hi, this is The Noob Clan this is a Discord server about a youtube channel that LJ and DyNoob own. If you want the channel link you run the command `{prefix}subscribe`!""")
 
-  if message.content.startswith(prefix + "shutdown"):
+  if message.content.startswith(prefix + "restart"):
     await message.channel.purge(limit=1)
     await message.channel.send("<@562711070242766850> someone shut the bot down.")
     time.sleep(1)
-    with open("shutdownlogs.txt", "a")as f:
+    with open("online_offline_logs.txt", "a")as f:
       f.write(f"""{message.author} shut down the bot.\n""")
     logs_channel = client.get_channel(813768338404278332)
     await logs_channel.send(f"{message.author} shutdown the bot.")
