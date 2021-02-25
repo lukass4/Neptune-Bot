@@ -26,6 +26,7 @@ server = client.get_guild(813415238493405246)
 messages = 0
 joined = 0
 logs_channel = client.get_channel(813768338404278332)
+toolbox = False
 
 #started up message
 
@@ -138,6 +139,49 @@ async def on_message(message):
     logs_channel = client.get_channel(813768338404278332)
     await logs_channel.send(f"{message.author} shutdown the bot.")
     await client.close()
+
+  if message.content.startswith(prefix + "purge"):
+    global toolbox
+    if toolbox == True:
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=125)
+      await message.channel.purge(limit=1)
+      await message.channel.send("1875 messages purged!")
+      logs_channel = client.get_channel(813768338404278332)
+      await logs_channel.send(f"{message.channel} was purged by {message.author}. A maximum of 1875 messages were purged as the toolbox was enabled.")
+    if toolbox == False:
+      await message.channel.purge(limit=51)
+      await message.channel.send("50 messages purged!")
+      logs_channel = client.get_channel(813768338404278332)
+      await logs_channel.send(f"{message.channel} was purged by {message.author}. A maximum of 50 messages were purged as the toolbox was disabled.")
+
+
+
+  if message.content.startswith(prefix + "toolbox"):
+    if toolbox == False:
+      toolbox = True
+      await message.channel.send("Toolbox enabled!")
+      logs_channel = client.get_channel(813768338404278332)
+      await logs_channel.send(f"""{message.author} enabled the toolbox.""")
+    else:
+      toolbox = False
+      await message.channel.send("Toolbox disabled!")
+      logs_channel = client.get_channel(813768338404278332)
+      await logs_channel.send(f"""{message.author} disabled the toolbox.""")
+
 
 
 #staff commands
