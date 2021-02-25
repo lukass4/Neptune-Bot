@@ -168,27 +168,46 @@ async def on_message(message):
       logs_channel = client.get_channel(813768338404278332)
       await logs_channel.send(f"#{message.channel} was purged by {message.author}. A maximum of 50 messages were purged as the toolbox was disabled.")
 
-
-
   if message.content.startswith(prefix + "toolbox"):
-    if toolbox == False:
-      toolbox = True
-      await message.channel.send("Toolbox enabled!")
-      logs_channel = client.get_channel(813768338404278332)
-      await logs_channel.send(f"""{message.author} enabled the toolbox.""")
-    else:
-      toolbox = False
-      await message.channel.send("Toolbox disabled!")
-      logs_channel = client.get_channel(813768338404278332)
-      await logs_channel.send(f"""{message.author} disabled the toolbox.""")
+      role = server.get_role(813415300309188628)
+      if role in message.author.roles:
+        if toolbox == False:
+          toolbox = True
+          await message.channel.send("Toolbox enabled!")
+          logs_channel = client.get_channel(813768338404278332)
+          await logs_channel.send(f"""{message.author} enabled the toolbox.""")
+        else:
+          toolbox = False
+          await message.channel.send("Toolbox disabled!")
+          logs_channel = client.get_channel(813768338404278332)
+          await logs_channel.send(f"""{message.author} disabled the toolbox.""")
+      else:
+        await message.channel.send("You can not use this command. If you think you should be able to use this command.")
+        
+
+  if message.content.startswith(prefix + "deeznuts"):
+    await message.channel.send("https://static.wikia.nocookie.net/siivagunner/images/2/20/Deeznuts.jpg/revision/latest?cb=20201208014948")
+    await message.channel.send("Deez nuts?!?!")
 
 
 
 #staff commands
 
-  #if message.
+#Owner commands
+  admin = server.get_role(813415300309188628)
+  if admin in message.author.roles:
+
+
+  elif message.content.startswith(prefix):
+    if 
+
+
+
 
 
 
 client.loop.create_task(update_stats())
+
+
+
 client.run("ODE0MTAyMDYxOTIyMTIzODM2.YDY9oA.rcel_4RUzVB5Kxa076ZYJmDPvDw")
