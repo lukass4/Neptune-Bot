@@ -8,6 +8,8 @@ import os
 import discord
 import time
 import random
+import time
+import asyncio
 
 #getting the prefix
 
@@ -21,6 +23,9 @@ client = discord.Client()
 default_prefix = ("!!")
 prefix = (prefixfile)
 server = client.get_guild(813415238493405246)
+messages = 0
+joined = 0
+logs_channel = client.get_channel(813768338404278332)
 
 #started up message
 
@@ -28,19 +33,64 @@ server = client.get_guild(813415238493405246)
 async def on_ready():
   print("Bot is online! {0.user}".format(client))
 
-#welcome message
+
+#Message and member join log script
+
+async def update_stats():
+  await client.wait_until_ready()
+  global messages, joined
+
+  while not client.is_closed():
+    try:
+        with open ("stats.txt", "a") as f:
+          f.write(f"""Time: {int(time.time())}, Messages: {messages}, Members Joined: {joined}\n""")
+        logs_channel = client.get_channel(813768338404278332)
+        await logs_channel.send(f"""Time: {int(time.time())}, Messages: {messages}, Members Joined: {joined}\n""")
+        messages = 0
+        joined = 0
+        await asyncio.sleep(60)
+    except Exception as e:
+      print(e)
+      await asyncio.sleep(60)
+
+
+
+#nickname
 
 @client.event
-async def on_member_join(member):
-  for channel in member.server.channels:
-    if str(channel) == "welcomes-and-goodbyes":
-      await client.send_message(f"""Hi, welcome to the server {member.mention} you are member number {server.member_count}!  """)
+async def on_member_update(before, after): 
+  print("")
+
+
+
+
+#commands amd 'bad words'
 
 @client.event
 async def on_message(message):
+  global messages
+  messages += 1
   server = client.get_guild(813415238493405246)
   if message.author == client.user:
     return
+
+  bad_words = ["Dynoob", "ded"]
+  staff_ping = ["<@&813415785690955818>", "<@&813415755093377094>", "<@&813770998498983956>", "<@&813415769903464459>", "<@&813770937220333578>", "<@&814147036872966144>", "<@&813768249023528991>", "<@&813415785690955818>", "<@&813770900250951721>", ]
+
+  for word in bad_words:
+    if message.content.count(word)> 0:
+      print(f"""{message.author} send a bad word in #{message.channel}. The message was '{message.content}'""")
+      await message.channel.purge(limit=1)
+      await message.channel.send("Dont say that word :angry:")
+      logs_channel = client.get_channel(813768338404278332)
+      await logs_channel.send(f"""{message.author} send a bad word in #{message.channel}. The message was '{message.content}'""")
+
+  for word in staff_ping:
+    if message.content.count(word)> 0:
+      print(f"""{message.author}({message.author.id}) send a pinged staff in #{message.channel}. The message was '{message.content}'""")
+      await message.channel.send("NOTE: Make sure to only ping staff when necessary!")
+      logs_channel = client.get_channel(813768338404278332)
+      await logs_channel.send(f"""{message.author} send a pinged staff in #{message.channel}. The message was '{message.content}'""")
 
 #Commands anyone can use
   
@@ -65,15 +115,6 @@ async def on_message(message):
   if message.content.startswith(prefix + "help"):
     await message.channel.send("Hi I am neptune bot. My prefix is `" + prefix + "`. Try `" + prefix + "commands` to get started!")
 
-  if message.content.startswith(prefix + "commands"):
-      await message.channel.send(f"""My commands are:
-`{prefix}subscribe` Gives you our youtube channel link
-`{prefix}members` Says how many members the server has
-`{prefix}whoami` Gives you some info about... YOU!
-`{prefix}nuke` Blows up the server
-`{prefix}info` Shows info on the server""")
-
-
   if message.content.startswith(prefix + "whoami"):
     await message.channel.send(message.author)
 
@@ -83,12 +124,22 @@ async def on_message(message):
   if message.content.startswith(prefix + "info"):
     await message.channel.send(f"""Hi, this is The Noob Clan this is a Discord server about a youtube channel that LJ and DyNoob own. If you want the channel link you run the command `{prefix}subscribe`!""")
 
+  if message.content.startswith(prefix + "shutdown"):
+    await message.channel.purge(limit=1)
+    await message.channel.send("<@562711070242766850> someone shut the bot down.")
+    time.sleep(1)
+    with open("shutdownlogs.txt", "a")as f:
+      f.write(f"""{message.author} shut down the bot.\n""")
+    logs_channel = client.get_channel(813768338404278332)
+    await logs_channel.send(f"{message.author} shutdown the bot.")
+    await client.close()
+
 
 #staff commands
 
+  #if message.
 
 
 
-
-
+client.loop.create_task(update_stats())
 client.run("ODE0MTAyMDYxOTIyMTIzODM2.YDY9oA.rcel_4RUzVB5Kxa076ZYJmDPvDw")
