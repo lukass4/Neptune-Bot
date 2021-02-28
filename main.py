@@ -10,6 +10,7 @@ import time
 import random
 import time
 import asyncio
+from discord.ext import commands
 
 #getting the prefix
 
@@ -18,10 +19,8 @@ with open("prefix.txt", "r") as rf:
   prefixfile = rf.read()
 
 #variables
-
-client = discord.Client()
-default_prefix = ("!!")
 prefix = (prefixfile)
+client = commands.Bot(command_prefix = "!!")
 server = client.get_guild(813415238493405246)
 messages = 0
 joined = 0
@@ -100,114 +99,20 @@ async def on_message(message):
 
 #Commands anyone can use
   
-  if message.content.startswith(prefix + "hello"):
-    await message.channel.send("You just said hello to a bot. Get some friends.")
+@client.command()
+async def hello(ctx):
+  await ctx.send("You just said hello to a bot. Get some friends.")
 
-  if message.content.startswith(prefix + "subscribe"):
-    await message.channel.send("Go subscribe to our YT channel! https://www.youtube.com/channel/UCClRI1bqkIsYfWQGebcV4cg?guided_help_flow=5")
+@client.command()
+async def ping(ctx):
+  await ctx.send(f"Ping pong your mother is gone! `{client.latency * 1000}ms`")
 
-  if message.content.startswith(prefix + "youtube"):
-    await message.channel.send("Go subscribe to our YT channel! https://www.youtube.com/channel/UCClRI1bqkIsYfWQGebcV4cg?guided_help_flow=5")
-
-  if message.content.startswith(prefix + "YT"):
-    await message.channel.send("Go subscribe to our YT channel! https://www.youtube.com/channel/UCClRI1bqkIsYfWQGebcV4cg?guided_help_flow=5")
-
-  if message.content.startswith(prefix + "nuke"):
-      await message.channel.send("**BOOM!**")
-      time.sleep(2)
-      await message.channel.send("__**The server has been deleted!**__")
-      print("Someone tried to delete the server.")
-
-  if message.content.startswith(prefix + "help"):
-    await message.channel.send("Hi I am neptune bot. My prefix is `" + prefix + "`. Try `" + prefix + "commands` to get started!")
-
-  if message.content.startswith(prefix + "whoami"):
-    await message.channel.send(message.author)
-
-  if message.content.startswith(prefix + "members"):
-    await message.channel.send(f"""This server has `{server.member_count}` members!""")
-
-  if message.content.startswith(prefix + "info"):
-    await message.channel.send(f"""Hi, this is The Noob Clan this is a Discord server about a youtube channel that LJ and DyNoob own. If you want the channel link you run the command `{prefix}subscribe`!""")
-
-  if message.content.startswith(prefix + "restart"):
-    await message.channel.purge(limit=1)
-    await message.channel.send("<@562711070242766850> someone shut the bot down.")
-    time.sleep(1)
-    with open("online_offline_logs.txt", "a")as f:
-      f.write(f"""{message.author} shut down the bot.\n""")
-    logs_channel = client.get_channel(813768338404278332)
-    await logs_channel.send(f"{message.author} shutdown the bot.")
-    await client.close()
-
-  if message.content.startswith(prefix + "purge"):
-    global toolbox
-    if toolbox == True:
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=125)
-      await message.channel.purge(limit=1)
-      await message.channel.send("1875 messages purged!")
-      logs_channel = client.get_channel(813768338404278332)
-      await logs_channel.send(f"#{message.channel} was purged by {message.author}. A maximum of 1875 messages were purged as the toolbox was enabled.")
-    if toolbox == False:
-      await message.channel.purge(limit=51)
-      await message.channel.send("50 messages purged!")
-      logs_channel = client.get_channel(813768338404278332)
-      await logs_channel.send(f"#{message.channel} was purged by {message.author}. A maximum of 50 messages were purged as the toolbox was disabled.")
-
-  if message.content.startswith(prefix + "toolbox"):
-      role = server.get_role(813415300309188628)
-      if role in message.author.roles:
-        if toolbox == False:
-          toolbox = True
-          await message.channel.send("Toolbox enabled!")
-          logs_channel = client.get_channel(813768338404278332)
-          await logs_channel.send(f"""{message.author} enabled the toolbox.""")
-        else:
-          toolbox = False
-          await message.channel.send("Toolbox disabled!")
-          logs_channel = client.get_channel(813768338404278332)
-          await logs_channel.send(f"""{message.author} disabled the toolbox.""")
-      else:
-        await message.channel.send("You can not use this command. If you think you should be able to use this command.")
-        
-
-  if message.content.startswith(prefix + "deeznuts"):
-    await message.channel.send("https://static.wikia.nocookie.net/siivagunner/images/2/20/Deeznuts.jpg/revision/latest?cb=20201208014948")
-    await message.channel.send("Deez nuts?!?!")
-
-
-
-#staff commands
-
-#Owner commands
-  admin = server.get_role(813415300309188628)
-  if admin in message.author.roles:
-
-
-  elif message.content.startswith(prefix):
-    if 
-
-
-
-
-
+@client.command()
+aysnc def clear(ctx, amount)
 
 client.loop.create_task(update_stats())
 
+run = True
 
-
-client.run("ODE0MTAyMDYxOTIyMTIzODM2.YDY9oA.rcel_4RUzVB5Kxa076ZYJmDPvDw")
+if run == True:
+  client.run("ODE0MTAyMDYxOTIyMTIzODM2.YDY9oA.rcel_4RUzVB5Kxa076ZYJmDPvDw")
