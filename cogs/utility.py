@@ -1,6 +1,9 @@
 import discord
 from discord.ext import commands
 
+
+
+
 class Utility(commands.Cog):
 
     def __innit__(self, client):
@@ -22,6 +25,8 @@ class Utility(commands.Cog):
             await ctx.send(f"{amount} message was purged")
         else:
             await ctx.send(f"{amount} message(s) were purged")
+
+
 
         
 

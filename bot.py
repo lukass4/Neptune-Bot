@@ -57,6 +57,11 @@ async def update_status():
 async def before_some_task():
   await client.wait_until_ready()
 
+@client.command()
+@commands.has_permissions(administrator = True)
+async def restart(ctx):
+    await client.close()
+
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
