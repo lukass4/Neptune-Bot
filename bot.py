@@ -60,6 +60,8 @@ async def before_some_task():
 @client.command()
 @commands.has_permissions(administrator = True)
 async def restart(ctx):
+    update_status.stop()
+    await client.change_presence(status=discord.Status.online, activity=discord.Game("Resarting..."))
     await client.close()
 
 @client.event
