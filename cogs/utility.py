@@ -13,16 +13,16 @@ class Utility(commands.Cog):
         print("'Utility' module has been loaded")
     
 
-    @commands.command()
+    @commands.command(aliases=["purge", "delete", "wipe", "del", "clean",])
     @commands.has_permissions(manage_messages = True)
     async def clear(self, ctx, amount=10):
-        await ctx.channel.purge(limit=amount)
+        await ctx.channel.purge(limit=amount+1)
         if amount == 1:
-            await ctx.send(f"{amount} message was purged")
+            await ctx.send(f"A message was removed")
             time.sleep(1)
             await ctx.channel.purge(limit=1)
         else:
-            await ctx.send(f"{amount} message(s) were purged")
+            await ctx.send(f"Up to {amount} messages were removed")
             time.sleep(1)
             await ctx.channel.purge(limit=1)
     
