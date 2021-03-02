@@ -45,6 +45,11 @@ async def disable_error(ctx, error):
         await ctx.send(f"Please specify the module you would like to disable. Do `{prefix}modules` to see a list of all modules.")
 
 @client.command()
+async def ping(self, ctx):
+    await ctx.send(f"Ping pong your mother is gone! `{round(client.latency * 1000)}ms`")
+
+
+@client.command()
 async def modules(ctx):
     await ctx.send(f"""Here is a list of all modules.\n`fun`: Some fun commands\n`utility`: Some useful commands such as `{prefix}ping`\n*To enable or disable any of these modules do {prefix}enable/disbale <module name>*""")
 

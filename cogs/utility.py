@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
-
-
+import time
 
 
 class Utility(commands.Cog):
@@ -13,9 +12,6 @@ class Utility(commands.Cog):
     async def on_ready(self):
         print("'Utility' module has been loaded")
     
-    @commands.command()
-    async def ping(self, ctx):
-        await ctx.send(f"Ping pong your mother is gone! `{round(client.latency * 1000)}ms`")
 
     @commands.command()
     @commands.has_permissions(manage_messages = True)
@@ -23,8 +19,14 @@ class Utility(commands.Cog):
         await ctx.channel.purge(limit=amount)
         if amount == 1:
             await ctx.send(f"{amount} message was purged")
+            time.sleep(1)
+            await ctx.channel.purge(limit=1)
         else:
             await ctx.send(f"{amount} message(s) were purged")
+            time.sleep(1)
+            await ctx.channel.purge(limit=1)
+    
+
 
 
 

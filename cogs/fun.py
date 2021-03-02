@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import random
 
 class Fun(commands.Cog):
 
@@ -21,6 +22,16 @@ class Fun(commands.Cog):
     @commands.command()
     async def f(self, ctx,):
         await ctx.send("idek what just happened but big **f**")
+    
+    @commands.command()
+    async def neverhaveiever(self, ctx,):
+        with open("neverhaveiever.txt", "r")as f:
+            questions = f.readlines()
+        await ctx.send(f"Never have I ever {questions[random.randint(0, 12)]}")
+
+    @commands.command()
+    async def truthordare(self, ctx, member : discord.Member):
+        await ctx.send(f"{member} truth or dare.\n {ctx.authour.mention} will ask you a question/give you a dare when you choose truth or dare.")  
 
 def setup(client):
     client.add_cog(Fun(client))
