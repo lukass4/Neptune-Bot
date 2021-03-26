@@ -10,6 +10,7 @@ import asyncio
 with open("prefix.txt", "r") as f:
     prefix = f.read()
 
+
 client = commands.Bot(command_prefix = prefix)
 bot = discord.Client()
 statuses = ["Deez nuts", "I am neptune", "Don't ask questions", f"{prefix}help", "Mee6 more like Mee69", "I am king of all bots!", "Neptune > Jupiter", "Made by LJ_gaming#1224"]
@@ -48,6 +49,8 @@ async def disable_error(ctx, error):
 async def ping(self, ctx):
     await ctx.send(f"Ping pong your mother is gone! `{round(client.latency * 1000)}ms`")
 
+async def disable_help():
+    client.remove_command("help")
 
 @client.command()
 async def modules(ctx):
@@ -62,12 +65,23 @@ async def update_status():
 async def before_some_task():
   await client.wait_until_ready()
 
+def is_bot_admin(ctx):
+    return ctx.author.id == 562711070242766850 or ctx.author.id == 753552148167524422
+
 @client.command()
-@commands.has_permissions(administrator = True)
+@commands.check(is_bot_admin)
 async def restart(ctx):
     update_status.stop()
     await client.change_presence(status=discord.Status.online, activity=discord.Game("Resarting..."))
     await client.close()
+
+@client.command(aliases=["slowmode", "delay"])
+@commands.has_permissions(manage_messages = True)
+async def sm(self, ctx, seconds : int):
+    await ctx.channel.edit(slowmode_delay=seconds)
+    await ctx.send(f"Slowmode set to `{seconds}` by `{ctx.author.mention}`")
+
+
 
 @client.event
 async def on_command_error(ctx, error):

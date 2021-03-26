@@ -25,7 +25,9 @@ class Utility(commands.Cog):
             await ctx.send(f"Up to {amount} messages were removed")
             time.sleep(1)
             await ctx.channel.purge(limit=1)
-    
+
+
+
 
 
 
