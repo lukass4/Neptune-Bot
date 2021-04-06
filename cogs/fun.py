@@ -20,7 +20,7 @@ class Fun(commands.Cog):
         await ctx.send(f"I love you {member.mention}! Do you love me?")
 
     @commands.command()
-    async def f(self, ctx,):
+    async def f(self, ctx):
         await ctx.send("idek what just happened but big **f**")
 
 

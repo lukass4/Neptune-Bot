@@ -13,7 +13,7 @@ with open("prefix.txt", "r") as f:
 
 client = commands.Bot(command_prefix = prefix)
 bot = discord.Client()
-statuses = ["Deez nuts", "I am neptune", "Don't ask questions", f"{prefix}help", "Mee6 more like Mee69", "I am king of all bots!", "Neptune > Jupiter", "Made by LJ_gaming#1224"]
+
 
 
 @client.event
@@ -21,9 +21,11 @@ async def on_ready():
     print("Bot is online! {0.user}".format(client))
     logs_channel = client.get_channel(813768338404278332)
     await logs_channel.send("The bot is online!")
-    await client.change_presence(status=discord.Status.online, activity=discord.Game(random.choice(statuses)))
     with open("online_offline_logs.txt", "a")as f:
         f.write("The bot is now online!\n")
+    with open("status.txt", "r") as f:
+        current_status = f.read()
+    await client.change_presence(status=discord.Status.online, activity=discord.Game(name=current_status))
 
 @client.command()
 async def enable(ctx, extension):
@@ -56,30 +58,26 @@ async def disable_help():
 async def modules(ctx):
     await ctx.send(f"""Here is a list of all modules.\n`fun`: Some fun commands\n`utility`: Some useful commands such as `{prefix}ping`\n*To enable or disable any of these modules do {prefix}enable/disbale <module name>*""")
 
-@tasks.loop(minutes=15)
-async def update_status():
-    statuses = ["Deez nuts", "I am neptune", "Don't ask questions", f"{prefix}help", "Mee6 more like Mee69", "I am king of all bots!", "Neptune > Jupiter", "Made by LJ_gaming#1224"]
-    await client.change_presence(status=discord.Status.online, activity=discord.Game(random.choice(statuses)))
-
-@update_status.before_loop
-async def before_some_task():
-  await client.wait_until_ready()
-
 def is_bot_admin(ctx):
-    return ctx.author.id == 562711070242766850 or ctx.author.id == 753552148167524422
+    if ctx.author.id == 562711070242766850 or ctx.author.id == 753552148167524422 or ctx.author.id == 705712254305173586:
+        return
+
 
 @client.command()
 @commands.check(is_bot_admin)
 async def restart(ctx):
-    update_status.stop()
     await client.change_presence(status=discord.Status.online, activity=discord.Game("Resarting..."))
     await client.close()
 
 @client.command(aliases=["slowmode", "delay"])
 @commands.has_permissions(manage_messages = True)
-async def sm(self, ctx, seconds : int):
-    await ctx.channel.edit(slowmode_delay=seconds)
-    await ctx.send(f"Slowmode set to `{seconds}` by `{ctx.author.mention}`")
+async def sm(ctx, seconds : int=0):
+    if seconds == 0:
+        await ctx.channel.edit(slowmode_delay=0)
+        await ctx.send(f"{ctx.author.mention} disabled slowmode.")
+    else:
+        await ctx.channel.edit(slowmode_delay=seconds)
+        await ctx.send(f"Slowmode set to `{seconds}` by {ctx.author.mention}")
 
 
 
@@ -93,6 +91,6 @@ for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
         client.load_extension(f"cogs.{filename[:-3]}")
 
-update_status.start()
+
 client.run("ODE0MTAyMDYxOTIyMTIzODM2.YDY9oA.rcel_4RUzVB5Kxa076ZYJmDPvDw")
 
