@@ -13,7 +13,7 @@ class Utility(commands.Cog):
         print("'Utility' module has been loaded")
     
 
-    @commands.command(aliases=["purge", "delete", "wipe", "del", "clean",])
+    @commands.command(aliases=["purge", "delete", "del", "clean",])
     @commands.has_permissions(manage_messages = True)
     async def clear(self, ctx, amount=10):
         await ctx.channel.purge(limit=amount+1)
